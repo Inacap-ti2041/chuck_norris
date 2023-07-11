@@ -1,0 +1,290 @@
+{
+  "info": {
+    "_postman_id": "ddcda664-7c3a-435c-9688-e51d302df2b9",
+    "name": "Chuck Norris",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "557811"
+  },
+  "item": [
+    {
+      "name": "Autorización",
+      "item": [
+        {
+          "name": "Obtener el token",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "const res = pm.response.json();\r",
+                  "\r",
+                  "pm.test(\"Has properties\", function () {\r",
+                  "    pm.expect(res).to.have.property(\"access\");\r",
+                  "});\r",
+                  "\r",
+                  "if (pm.test(\"Have properties\")) {\r",
+                  "    pm.collectionVariables.set(\"access_token\", res.access);\r",
+                  "}\r",
+                  "\r",
+                  "pm.test(\"Has properties\", function () {\r",
+                  "    pm.expect(res).to.have.property(\"refresh\");\r",
+                  "});\r",
+                  "\r",
+                  "if (pm.test(\"Have properties\")) {\r",
+                  "    pm.collectionVariables.set(\"refresh_token\", res.refresh);\r",
+                  "}\r",
+                  ""
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"username\": \"{{username}}\",\r\n    \"password\": \"{{password}}\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{base_url}}/api/auth/",
+              "host": ["{{base_url}}"],
+              "path": ["api", "auth", ""]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Refrescar el token",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "const res = pm.response.json();\r",
+                  "\r",
+                  "pm.test(\"Has properties\", function () {\r",
+                  "    pm.expect(res).to.have.property(\"access\");\r",
+                  "});\r",
+                  "\r",
+                  "if (pm.test(\"Have properties\")) {\r",
+                  "    pm.collectionVariables.set(\"access_token\", res.access);\r",
+                  "}"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "auth": {
+              "type": "noauth"
+            },
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"refresh\": \"{{refresh_token}}\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{base_url}}/api/auth/refresh/",
+              "host": ["{{base_url}}"],
+              "path": ["api", "auth", "refresh", ""]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Hechos",
+      "item": [
+        {
+          "name": "Obtener todos",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/facts/",
+              "host": ["{{base_url}}"],
+              "path": ["api", "facts", ""]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Crea un nuevo hecho",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "const res = pm.response.json();\r",
+                  "\r",
+                  "pm.test(\"Has properties\", function () {\r",
+                  "    pm.expect(res).to.have.property(\"id\");\r",
+                  "});\r",
+                  "\r",
+                  "if (pm.test(\"Have properties\")) {\r",
+                  "    pm.collectionVariables.set(\"fact_id\", res.id);\r",
+                  "}"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"fact\": \"Chuck Norris puede escribir aplicaciones multihilo con un solo hilo.\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{base_url}}/api/facts/",
+              "host": ["{{base_url}}"],
+              "path": ["api", "facts", ""]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Obtiene un hecho",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/facts/{{fact_id}}/",
+              "host": ["{{base_url}}"],
+              "path": ["api", "facts", "{{fact_id}}", ""]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Modifica un hecho",
+          "request": {
+            "method": "PUT",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"fact\": \"Chuck Norris no necesita un depurador, se limita a mirar fijamente al fallo hasta que el código confiesa.\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{base_url}}/api/facts/{{fact_id}}/",
+              "host": ["{{base_url}}"],
+              "path": ["api", "facts", "{{fact_id}}", ""]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Elimina un hecho",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/facts/{{fact_id}}/",
+              "host": ["{{base_url}}"],
+              "path": ["api", "facts", "{{fact_id}}", ""]
+            }
+          },
+          "response": []
+        }
+      ],
+      "auth": {
+        "type": "bearer",
+        "bearer": [
+          {
+            "key": "token",
+            "value": "{{access_token}}",
+            "type": "string"
+          }
+        ]
+      },
+      "event": [
+        {
+          "listen": "prerequest",
+          "script": {
+            "type": "text/javascript",
+            "exec": [""]
+          }
+        },
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [""]
+          }
+        }
+      ]
+    }
+  ],
+  "event": [
+    {
+      "listen": "prerequest",
+      "script": {
+        "type": "text/javascript",
+        "exec": [""]
+      }
+    },
+    {
+      "listen": "test",
+      "script": {
+        "type": "text/javascript",
+        "exec": [""]
+      }
+    }
+  ],
+  "variable": [
+    {
+      "key": "base_url",
+      "value": "http://localhost:8000",
+      "type": "string"
+    },
+    {
+      "key": "username",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "password",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "access_token",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "refresh_token",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "fact_id",
+      "value": "",
+      "type": "string"
+    }
+  ]
+}

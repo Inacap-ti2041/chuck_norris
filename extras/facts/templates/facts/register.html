@@ -1,0 +1,11 @@
+{% extends 'facts/base.html' %}
+{% load bootstrap5 %}
+{% block title %}Registrarse{% endblock %}
+{% block content %}
+<h1 class="text-center">Registrarse</h1>
+<form method="POST">
+    {% csrf_token %}
+    {% bootstrap_form form layout='horizontal' %}
+    <button type="submit" class="btn btn-lg btn-primary fw-bold">Crear usuario</button>
+</form>
+{% endblock %}

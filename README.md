@@ -212,6 +212,7 @@ pip install -r requirements.txt
   - [Parte 1](./unidad_2a/README.md)
   - [Parte 2](./unidad_2b/README.md)
 - [Unidad 3: Django y MySQL](./unidad_3/README.md)
+- [Extras](./extras/README.md)
 
 ## Licencia
 
