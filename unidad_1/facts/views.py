@@ -18,7 +18,7 @@ FACTS_LIST = [
     },
     {
         'id': 4,
-        'fact': 'Las lágrimas de Chuck Norris curan el cáncer. Lástima que jamás haya llorado.'
+        'fact': 'Chuck Norris puede ganar al Sol en un juego de miradas.'
     },
     {
         'id': 5,
