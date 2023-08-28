@@ -235,13 +235,9 @@ urlpatterns = [
 A continuación, se explica el código anterior:
 
 - La función `include` se importa desde el módulo `django.urls`. Esta función permite incluir las rutas de una aplicación en las rutas del proyecto.
-
 - La función `RedirectView` se importa desde el módulo `django.views.generic.base`. Esta función permite redireccionar una ruta a otra ruta.
-
 - La ruta `admin/` se asocia a la aplicación de administración de Django.
-
 - La ruta `facts/` se asocia a la aplicación creada.
-
 - La ruta raíz del sitio se redirecciona a la ruta `facts/`.
 
 Con lo anterior, ya tenemos la aplicación creada y configurada. Ahora debemos ejecutar el servidor para probarla. Para ello, ejecutaremos el siguiente comando:
