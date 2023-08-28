@@ -5,19 +5,16 @@ from django.db import migrations
 
 def create_facts(apps, schema_editor):
     Fact = apps.get_model('facts', 'Fact')
-    Fact.objects.create(fact='Chuck Norris puede dividir entre cero.')
     Fact.objects.create(
-        fact="Hay 1424 cosas en una habitación promedio con las que Chuck Norris podría matarte. Incluyendo la habitación en sí.")
+        fact='Chuck Norris contó hasta el infinito. Dos veces.')
     Fact.objects.create(
-        fact="Chuck Norris es la medida del sistema internacional del dolor.")
+        fact="Chuck Norris puede dividir por cero.")
     Fact.objects.create(
-        fact="Chuck Norris ganó un concurso sobre permanecer debajo del agua y ganó. Cabe destacar que su contrincante era pez.")
+        fact="Chuck Norris puede reproducir un CD en un tocadiscos.")
     Fact.objects.create(
-        fact="Las lágrimas de Chuck Norris curan el cáncer. Lástima que jamás haya llorado.")
+        fact="Chuck Norris puede ganar al Sol en un juego de miradas.")
     Fact.objects.create(
         fact="Chuck Norris dona sangre a menudo. Pero rara vez es la suya.")
-    Fact.objects.create(
-        fact="La gente usa pijamas de Superman. Superman usa pijamas de Chuck Norris.")
 
 
 class Migration(migrations.Migration):

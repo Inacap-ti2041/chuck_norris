@@ -1,0 +1,14 @@
+{% extends 'facts/base.html' %}
+{% load bootstrap5 %}
+{% block title %}Crear nuevo hecho{% endblock %}
+{% block content %}
+<h1>Este es un hecho aleatorio de Chuck Norris</h1>
+<p class="lead">
+    {{ fact.fact }}
+</p>
+<p class="lead">
+    <a href="{% url 'create' %}" class="btn btn-lg btn-secondary fw-bold border-white bg-white">
+        Nuevo hecho
+    </a>
+</p>
+{% endblock %}

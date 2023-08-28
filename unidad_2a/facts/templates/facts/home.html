@@ -2,11 +2,15 @@
 {% block title %}Hechos de Chuck Norris{% endblock %}
 {% block content %}
 <h1>Hechos de Chuck Norris</h1>
-<p class="lead">
-    {{ current_fact }}
-</p>
-<p class="lead">
-    <a href="{% url 'create_fact' %}" class="btn btn-lg btn-secondary fw-bold border-white bg-white">
+<div class="list-group">
+    {% for fact in facts %}
+    <a href="{% url 'fact' fact.id %}" class="list-group-item list-group-item-action">
+        Ver Hecho #{{ fact.id }}
+    </a>
+    {% endfor %}
+</div>
+<p class="lead mt-2">
+    <a href="{% url 'create' %}" class="btn btn-lg btn-secondary fw-bold border-white bg-white">
         Nuevo hecho
     </a>
 </p>

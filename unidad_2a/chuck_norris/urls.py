@@ -14,10 +14,16 @@ Including another URLconf
     1. Import the include() function: from django.urls import include, path
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
+from django.conf import settings
+from django.conf.urls.static import static
 from django.contrib import admin
 from django.urls import include, path
+from django.views.generic.base import RedirectView
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', include('facts.urls')),
+    # Establece la ruta para la aplicación de hechos
+    path('facts/', include('facts.urls')),
+    # Redirecciona la ruta raíz a la ruta de hechos
+    path('', RedirectView.as_view(url='/facts/', permanent=True)),
 ]
