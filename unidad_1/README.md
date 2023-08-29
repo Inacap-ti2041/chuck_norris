@@ -4,7 +4,7 @@ Realiza programa del lado del servidor, de acuerdo a la sintaxis del lenguaje.
 
 ## Paso a paso
 
-En primer lugar, crear la carpeta donde alojaremos el proyecto. Para ello, ejecutaremos el siguiente comando:
+En primer lugar, crearemos la carpeta donde alojaremos el proyecto. Para ello, ejecutaremos el siguiente comando:
 
 ```bash
 mkdir chuck_norris
@@ -22,7 +22,7 @@ Una vez dentro, crearemos el proyecto en Django con el siguente comando:
 django-admin startproject chuck_norris .
 ```
 
-> **Nota:** Es importante destacar el punto al final del comando. Ese parámetro le indica a Django que debe crear el projecto en el primer nivel del directorio.
+> **Nota:** Es importante destacar el punto al final del comando. Ese parámetro le indica a Django que debe crear el proyecto en el primer nivel del directorio.
 
 Con el projecto Django creado, ahora debemos crear la aplicación. Para lograrlo, ejecutaremos el siguiente comando:
 
@@ -246,4 +246,4 @@ Con lo anterior, ya tenemos la aplicación creada y configurada. Ahora debemos e
 python manage.py runserver
 ```
 
-Por defecto, Django ejecuta el servidor en el puerto 8000. Por lo tanto, podemos acceder a la aplicación desde la siguiente URL: [http://localhost:8000](http://localhost:8000).
+Por defecto, Django ejecuta el servidor en el puerto 8000. Por lo tanto, podemos acceder a la aplicación desde la siguiente URL: [http://127.0.0.1:8000](http://127.0.0.1:8000).
