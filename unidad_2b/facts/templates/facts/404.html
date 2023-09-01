@@ -1,0 +1,13 @@
+{% extends 'facts/base.html' %}
+{% load bootstrap5 %}
+{% block title %}Crear nuevo hecho{% endblock %}
+{% block content %}
+<div class="text-center">
+    <h1 class="display-1 fw-bold">404</h1>
+    <p class="fs-3"> <span class="text-danger">Ups!</span> Página no encontrada.</p>
+    <p class="lead">
+        El hecho que estás buscando no existe.
+    </p>
+    <a href="{% url 'home' %}" class="btn btn-lg btn-secondary fw-bold border-white bg-white">Ir al inicio</a>
+</div>
+{% endblock %}

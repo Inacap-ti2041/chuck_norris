@@ -396,7 +396,7 @@ Para probar nuestra API RESTFul, vamos a ejecutar el siguiente comando:
 python manage.py runserver
 ```
 
-Usando una herramienta como Postman o cURL, vamos a realizar una petición POST a la URL `http://localhost:8000/api/auth/` con el siguiente contenido:
+Usando una herramienta como Postman o cURL, vamos a realizar una petición POST a la URL `http://127.0.0.1:8000/api/auth/` con el siguiente contenido:
 
 ```json
 {
@@ -408,7 +408,7 @@ Usando una herramienta como Postman o cURL, vamos a realizar una petición POST 
 Veamos un ejemplo de petición con cURL:
 
 ```bash
-curl --location --request POST 'http://localhost:8000/api/auth/' \
+curl --location --request POST 'http://127.0.0.1:8000/api/auth/' \
 --header 'Content-Type: application/json' \
 --data-raw '{
     "username": "admin",
@@ -429,10 +429,10 @@ La petición anterior deberá retornar una respuesta similar a esta:
 
 > **Nota:** El valor que obtengas será diferente al que se muestra en este ejemplo.
 
-Ahora, vamos a realizar una petición GET a la URL `http://localhost:8000/api/facts/`. Si usamos una herramienta como Postman, debemos modificar la autorización de la petición para que use el token `access` que obtuvimos anteriormente. Si usamos cURL, debemos añadir el token en el header de la petición de la siguiente forma:
+Ahora, vamos a realizar una petición GET a la URL `http://127.0.0.1:8000/api/facts/`. Si usamos una herramienta como Postman, debemos modificar la autorización de la petición para que use el token `access` que obtuvimos anteriormente. Si usamos cURL, debemos añadir el token en el header de la petición de la siguiente forma:
 
 ```bash
-curl --location --request GET 'http://localhost:8000/api/facts/' \
+curl --location --request GET 'http://127.0.0.1:8000/api/facts/' \
 --header 'Content-Type: application/json' \
 --header 'Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjg5MDk2NDUyLCJpYXQiOjE2ODkwOTU1NTIsImp0aSI6Ijk1Y2Q2YThhYzQwMDQ0NTJiZGQyZGYxNWU5MTU2OGQ5IiwidXNlcl9pZCI6Mn0.q0FxumZR8LFr6W7dzLA8r2tBLQ0LRRUGpXV2fM4_4zU'
 ```

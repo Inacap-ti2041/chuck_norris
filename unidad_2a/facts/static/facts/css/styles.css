@@ -32,7 +32,7 @@ body {
 }
 
 .cover-container {
-    max-width: 42em;
+    max-width: 48em;
 }
 
 
@@ -50,7 +50,8 @@ body {
     border-bottom-color: rgba(255, 255, 255, .25);
 }
 
-.nav-masthead .nav-link+.nav-link {
+.nav-masthead .nav-link+.nav-link,
+.nav-masthead .dropdown {
     margin-left: 1rem;
 }
 

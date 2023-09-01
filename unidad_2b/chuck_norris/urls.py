@@ -16,8 +16,12 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import include, path
+from django.views.generic.base import RedirectView
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', include('facts.urls')),
+    # Establece la ruta para la aplicación de hechos
+    path('facts/', include('facts.urls')),
+    # Redirecciona la ruta raíz a la ruta de hechos
+    path('', RedirectView.as_view(url='/facts/', permanent=True)),
 ]

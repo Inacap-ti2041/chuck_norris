@@ -211,12 +211,12 @@ Para probar nuestra API RESTFul, vamos a ejecutar el siguiente comando:
 python manage.py runserver
 ```
 
-Luego, vamos a utilizar una herramienta como Postman o cURL, y vamos a acceder a la ruta `http://localhost:8000/api/facts/`.
+Luego, vamos a utilizar una herramienta como Postman o cURL, y vamos a acceder a la ruta `http://127.0.0.1:8000/api/facts/`.
 
 Veamos un ejemplo con cURL:
 
 ```bash
-curl --location --request GET 'http://localhost:8000/api/facts/' \
+curl --location --request GET 'http://127.0.0.1:8000/api/facts/' \
 --header 'Content-Type: application/json'
 ```
 
@@ -278,10 +278,10 @@ Podremos ver una respuesta como la siguiente:
 
 Para probar las otras funcionalidades, podemos utilizar las siguientes rutas:
 
-- POST `http://localhost:8000/api/facts/`: Nos permitirá crear un nuevo hecho.
+- POST `http://127.0.0.1:8000/api/facts/`: Nos permitirá crear un nuevo hecho.
 
   ```bash
-  curl --location --request POST 'http://localhost:8000/api/facts/' \
+  curl --location --request POST 'http://127.0.0.1:8000/api/facts/' \
   --header 'Content-Type: application/json' \
   --data-raw '{
       "fact": "Chuck Norris puede escribir aplicaciones multihilo con un solo hilo."
@@ -298,10 +298,10 @@ Para probar las otras funcionalidades, podemos utilizar las siguientes rutas:
   }
   ```
 
-- GET `http://localhost:8000/api/facts/8/`: Nos retornará un hecho específico. En este caso, el hecho con el ID 8.
+- GET `http://127.0.0.1:8000/api/facts/8/`: Nos retornará un hecho específico. En este caso, el hecho con el ID 8.
 
   ```bash
-  curl --location --request GET 'http://localhost:8000/api/facts/8/' \
+  curl --location --request GET 'http://127.0.0.1:8000/api/facts/8/' \
   --header 'Content-Type: application/json'
   ```
 
@@ -315,10 +315,10 @@ Para probar las otras funcionalidades, podemos utilizar las siguientes rutas:
   }
   ```
 
-- PUT `http://localhost:8000/api/facts/8/`: Nos permitirá editar un hecho específico. En este caso, el hecho con el ID 8.
+- PUT `http://127.0.0.1:8000/api/facts/8/`: Nos permitirá editar un hecho específico. En este caso, el hecho con el ID 8.
 
   ```bash
-  curl --location --request PUT 'http://localhost:8000/api/facts/8/' \
+  curl --location --request PUT 'http://127.0.0.1:8000/api/facts/8/' \
   --header 'Content-Type: application/json' \
   --data-raw '{
       "fact": "Chuck Norris no necesita un depurador, se limita a mirar fijamente al fallo hasta que el código confiesa."
@@ -335,10 +335,10 @@ Para probar las otras funcionalidades, podemos utilizar las siguientes rutas:
   }
   ```
 
-- DELETE `http://localhost:8000/api/facts/8/`: Nos permitirá eliminar un hecho específico. En este caso, el hecho con el ID 8.
+- DELETE `http://127.0.0.1:8000/api/facts/8/`: Nos permitirá eliminar un hecho específico. En este caso, el hecho con el ID 8.
 
   ```bash
-  curl --location --request DELETE 'http://localhost:8000/api/facts/8/'
+  curl --location --request DELETE 'http://127.0.0.1:8000/api/facts/8/'
   ```
 
 Ahora es momento de añadir la funcionalidad de seguridad a nuestra API RESTFul. Para ello, vamos a modificar el archivo `settings.py` en la carpeta `chuck_norris` con el siguiente contenido:
@@ -428,7 +428,7 @@ Para probar nuestra API RESTFul, vamos a ejecutar el siguiente comando:
 python manage.py runserver
 ```
 
-Si accedemos a la url `http://localhost:8000/api/facts/` en el navegador, obtendremos una respuesta similar a esta:
+Si accedemos a la url `http://127.0.0.1:8000/api/facts/` en el navegador, obtendremos una respuesta similar a esta:
 
 ```json
 {
@@ -438,7 +438,7 @@ Si accedemos a la url `http://localhost:8000/api/facts/` en el navegador, obtend
 
 La razón es que necesitamos autenticarnos para poder acceder a la API RESTFul, y como no lo hemos hecho, nos devuelve un error `401 Unauthorized`.
 
-Para poder acceder a las rutas protegidas, usando una herramienta como Postman o cURL, vamos a realizar una petición POST a la URL `http://localhost:8000/api/auth/` con el siguiente contenido:
+Para poder acceder a las rutas protegidas, usando una herramienta como Postman o cURL, vamos a realizar una petición POST a la URL `http://127.0.0.1:8000/api/auth/` con el siguiente contenido:
 
 ```json
 {
@@ -450,7 +450,7 @@ Para poder acceder a las rutas protegidas, usando una herramienta como Postman o
 Veamos un ejemplo de petición con cURL:
 
 ```bash
-curl --location --request POST 'http://localhost:8000/api/auth/' \
+curl --location --request POST 'http://127.0.0.1:8000/api/auth/' \
 --header 'Content-Type: application/json' \
 --data-raw '{
     "username": "admin",
@@ -470,10 +470,10 @@ La petición anterior deberá retornar una respuesta similar a esta:
 
 > **Nota:** El valor del token que obtengas será diferente al que se muestra en este ejemplo.
 
-Ahora, vamos a realizar una petición GET a la URL `http://localhost:8000/api/facts/`. Si usamos una herramienta como Postman, debemos modificar la autorización de la petición para que use el token que obtuvimos anteriormente. Si usamos cURL, debemos añadir el token en el header de la petición de la siguiente forma:
+Ahora, vamos a realizar una petición GET a la URL `http://127.0.0.1:8000/api/facts/`. Si usamos una herramienta como Postman, debemos modificar la autorización de la petición para que use el token que obtuvimos anteriormente. Si usamos cURL, debemos añadir el token en el header de la petición de la siguiente forma:
 
 ```bash
-curl --location --request GET 'http://localhost:8000/api/facts/' \
+curl --location --request GET 'http://127.0.0.1:8000/api/facts/' \
 --header 'Content-Type: application/json' \
 --header 'Authorization: Token c61ed8ee590fe4fb03a8bc7a5abff0bf7c9bcbfc'
 ```
@@ -521,7 +521,7 @@ class FactSerializer(serializers.ModelSerializer):
         depth = 1
 ```
 
-De esta forma, al consultar la url `http://localhost:8000/api/facts/` obtendremos una respuesta similar a esta:
+De esta forma, al consultar la url `http://127.0.0.1:8000/api/facts/` obtendremos una respuesta similar a esta:
 
 ```json
 [

@@ -8,7 +8,9 @@ class FactForm(forms.ModelForm):
         model = Fact
         fields = ['fact']
         widgets = {
-            'fact': forms.Textarea
+            'fact': forms.Textarea(attrs={
+                'placeholder': 'Ingrese su hecho favorito'
+            })
         }
         labels = {
             'fact': 'Hecho'

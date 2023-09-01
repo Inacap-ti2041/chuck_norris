@@ -258,7 +258,7 @@
   "variable": [
     {
       "key": "base_url",
-      "value": "http://localhost:8000",
+      "value": "http://127.0.0.1:8000",
       "type": "string"
     },
     {

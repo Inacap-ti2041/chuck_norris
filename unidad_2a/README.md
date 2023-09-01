@@ -135,7 +135,9 @@ class FactForm(forms.ModelForm):
         model = Fact
         fields = ['fact']
         widgets = {
-            'fact': forms.Textarea
+            'fact': forms.Textarea(attrs={
+                'placeholder': 'Ingrese su hecho favorito'
+            })
         }
         labels = {
             'fact': 'Hecho'
@@ -290,7 +292,7 @@ body {
 }
 
 .cover-container {
-  max-width: 42em;
+  max-width: 48em;
 }
 
 /* Header */
@@ -307,7 +309,8 @@ body {
   border-bottom-color: rgba(255, 255, 255, 0.25);
 }
 
-.nav-masthead .nav-link + .nav-link {
+.nav-masthead .nav-link + .nav-link,
+.nav-masthead .dropdown {
   margin-left: 1rem;
 }
 
@@ -498,6 +501,6 @@ Luego, debemos ingresar un nombre de usuario, una dirección de correo electrón
 python manage.py runserver
 ```
 
-Ahora, podemos ingresar a la URL [http://localhost:8000/admin/](http://localhost:8000/admin/) para ingresar al panel de administración. Luego, debemos ingresar las credenciales del superusuario que creamos anteriormente. Una vez que hayamos ingresado al panel de administración, podemos administrar los hechos de Chuck Norris.
+Ahora, podemos ingresar a la URL [http://127.0.0.1:8000/admin/](http://127.0.0.1:8000/admin/) para ingresar al panel de administración. Luego, debemos ingresar las credenciales del superusuario que creamos anteriormente. Una vez que hayamos ingresado al panel de administración, podemos administrar los hechos de Chuck Norris.
 
 ![Admin](admin.png)
