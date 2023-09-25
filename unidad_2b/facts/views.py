@@ -30,8 +30,23 @@ def fact_view(request, fact_id):
 
 
 def random_view(request):
-    # Seleccionamos un hecho aleatorio
-    current_fact = random.choice(Fact.objects.all())
+    # Obtiene la lista de hechos vistos (identificadores únicos)
+    seen_facts_ids = request.session.get('seen_facts_ids', [])
+    # Filtra la lista de hechos para mostrar solo los que el
+    # usuario aún no ha visto (por identificador único)
+    remaining_facts = Fact.objects.exclude(id__in=seen_facts_ids)
+    # Si no quedan hechos por mostrar, reinicia la lista
+    if not remaining_facts:
+        # Si el usuario ha visto todos los hechos, reinicia la lista
+        seen_facts_ids = []
+        remaining_facts = Fact.objects.all()
+    # Elige un hecho aleatorio de los que quedan por mostrar
+    current_fact = random.choice(remaining_facts)
+    # Agrega el identificador único del hecho actual a la lista
+    # de hechos vistos por el usuario
+    seen_facts_ids.append(current_fact.id)
+    # Almacena la lista actualizada de hechos vistos en la sesión del usuario
+    request.session['seen_facts_ids'] = seen_facts_ids
     # Creamos el contenido de la respuesta
     context = {'fact': current_fact}
     # Creamos la respuesta

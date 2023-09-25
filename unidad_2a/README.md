@@ -27,7 +27,7 @@ chuck_norris/
 └── manage.py
 ```
 
-En primer lugar, vamos a instalaremos la lbrería `django-bootstrap-v5`, para darle la capacidad a Django de incorporar el framework Bootstrap. Para instalar esta librería, ejecutaremos el siguiente comando:
+En primer lugar, vamos a instalaremos la librería `django-bootstrap-v5`, para darle la capacidad a Django de incorporar el framework Bootstrap. Para instalar esta librería, ejecutaremos el siguiente comando:
 
 ```bash
 pip install django-bootstrap-v5
@@ -42,6 +42,292 @@ INSTALLED_APPS = [
     'bootstrap5', # <- Esta es la librería instalada
     ...
 ]
+```
+
+En el siguiente paso, vamos a crear una carpeta dentro de la aplicación `facts`, llamada `templates`. Esta carpeta contendrá las plantillas HTML de la aplicación. Dentro de la carpeta `templates`, crearemos una carpeta llamada `facts`, que contendrá las plantillas HTML de la aplicación `facts`. También crearemos una carpeta llamada `static` dentro de `facts`, que contendrá los recursos estáticos de la aplicación, como archivos CSS, JavaScript, imágenes, etc. Para proporcionar una estructura de archivos ordenada, crearemos una carpeta llamada `css` dentro de `static/facts`, que contendrá los archivos CSS de la aplicación.
+
+Con las carpetas creadas, crearemos los siguientes archivos:
+
+- `style.css` en la carpeta `static/facts/css`
+- `404.html` en la carpeta `templates/facts`
+- `base.html` en la carpeta `templates/facts`
+- `detail.html` en la carpeta `templates/facts`
+- `home.html` en la carpeta `templates/facts`
+- `random.html` en la carpeta `templates/facts`
+
+Lo anterior, debe dar como resultado la siguiente estructura de archivos:
+
+```plaintext
+chuck_norris/
+├── chuck_norris/
+│ ├── asgi.py
+│ ├── settings.py
+│ ├── urls.py
+│ ├── wsgi.py
+│ └── __init__.py
+├── facts/
+│ ├── migrations/
+│ │ ├── 0001_initial.py
+│ │ ├── 0002_initial_data.py
+│ │ └── __initial__.py
+│ ├── static/
+│ │ └── facts/
+│ │  └── css/
+│ │   └── style.css
+│ ├── templates/
+│ │ └── facts/
+│ │  ├── 404.html
+│ │  ├── base.html
+│ │  ├── detail.html
+│ │  ├── home.html
+│ │  └── random.html
+│ ├── admin.py
+│ ├── apps.py
+│ ├── models.py
+│ ├── tests.py
+│ ├── urls.py
+│ ├── views.py
+│ └── __init__.py
+└── manage.py
+```
+
+En primera instancia, vamos a editar el archivo llamado `styles.css`. Este archivo contendrá los estilos CSS de la aplicación. El contenido del archivo será el siguiente:
+
+```css
+.bd-placeholder-img {
+  font-size: 1.125rem;
+  text-anchor: middle;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  user-select: none;
+}
+
+@media (min-width: 768px) {
+  .bd-placeholder-img-lg {
+    font-size: 3.5rem;
+  }
+}
+
+/*
+* Globals
+*/
+
+/* Custom default button */
+.btn-secondary,
+.btn-secondary:hover,
+.btn-secondary:focus {
+  color: #333;
+  text-shadow: none;
+  /* Prevent inheritance from `body` */
+}
+
+/* Base structure */
+body {
+  text-shadow: 0 0.05rem 0.1rem rgba(0, 0, 0, 0.5);
+  box-shadow: inset 0 0 5rem rgba(0, 0, 0, 0.5);
+}
+
+.cover-container {
+  max-width: 48em;
+}
+
+/* Header */
+.nav-masthead .nav-link {
+  padding: 0.25rem 0;
+  font-weight: 700;
+  color: rgba(255, 255, 255, 0.5);
+  background-color: transparent;
+  border-bottom: 0.25rem solid transparent;
+}
+
+.nav-masthead .nav-link:hover,
+.nav-masthead .nav-link:focus {
+  border-bottom-color: rgba(255, 255, 255, 0.25);
+}
+
+.nav-masthead .nav-link + .nav-link,
+.nav-masthead .dropdown {
+  margin-left: 1rem;
+}
+
+.nav-masthead .active {
+  color: #fff;
+  border-bottom-color: #fff;
+}
+```
+
+Como siguiente paso, vamos a editar el archivo llamado `base.html`. Este archivo contendrá la plantilla para mostrar el error 404. El contenido del archivo será el siguiente:
+
+```html
+{% load static %} {% load bootstrap5 %}
+<!DOCTYPE html>
+<html lang="es" class="h-100">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{% block title %}{% endblock %}</title>
+    {% bootstrap_css %}
+    <link rel="stylesheet" href="{% static 'facts/css/styles.css' %}" />
+  </head>
+  <body class="d-flex h-100 text-center text-white bg-dark">
+    <div class="cover-container d-flex w-100 h-100 p-3 mx-auto flex-column">
+      <header class="mb-auto">
+        <div>
+          <h3 class="float-md-start mb-0">Hechos de Chuck Norris</h3>
+          <nav class="nav nav-masthead justify-content-center float-md-end">
+            <a class="nav-link" href="{% url 'home' %}">Inicio</a>
+            <a class="nav-link" href="{% url 'random' %}">Aleatorio</a>
+            <a class="nav-link" href="{% url 'create' %}">Nuevo</a>
+          </nav>
+        </div>
+      </header>
+      <main class="px-3">{% block content %}{% endblock %}</main>
+      <footer class="mt-auto text-white-50">
+        <p>
+          Proyecto creado por
+          <a href="mailto:jose.candia07@inacapmail.cl" class="text-white"
+            >José Miguel Candia</a
+          >, para la asignatura Programación Back End.
+        </p>
+      </footer>
+    </div>
+    {% bootstrap_javascript %}
+  </body>
+</html>
+```
+
+En el código anterior, definimos un bloque `content` que define el contenido de la página. También definimos un bloque `title` que define el título de la página. Además, agregamos los enlaces a los archivos CSS y JavaScript de Bootstrap. También agregamos un enlace al archivo `styles.css` que contiene los estilos CSS de la aplicación.
+
+La siguiente plantilla que vamos a crear se llamará `home.html`. Esta plantilla será la encargada de mostrar los hechos de Chuck Norris:
+
+```html
+{% extends 'facts/base.html' %} {% block title %}Hechos de Chuck Norris{%
+endblock %} {% block content %}
+<h1>Hechos de Chuck Norris</h1>
+<div class="list-group">
+  {% for fact in facts %}
+  <a
+    href="{% url 'fact' fact.id %}"
+    class="list-group-item list-group-item-action"
+  >
+    Ver Hecho #{{ fact.id }}
+  </a>
+  {% endfor %}
+</div>
+<p class="lead mt-2">
+  <a
+    href="{% url 'create' %}"
+    class="btn btn-lg btn-secondary fw-bold border-white bg-white"
+  >
+    Nuevo hecho
+  </a>
+</p>
+{% endblock %}
+```
+
+En el código anterior, se pueden apreciar los bloques `content` y `title` que definen el contenido y el título de la página, respectivamente. Además, se puede apreciar un bucle `for` que recorre los hechos de Chuck Norris y los muestra en la página.
+
+Ahora es el turno de editar la plantilla `detail.html`. Esta plantilla será la encargada de mostrar un hecho de Chuck Norris en particular:
+
+```html
+{% extends 'facts/base.html' %} {% load bootstrap5 %} {% block title %}Hecho de
+Chuck Norris{% endblock %} {% block content %}
+<h1>Este es un hecho de Chuck Norris con ID {{ fact.id }}</h1>
+<p class="lead">{{ fact.fact }}</p>
+{% endblock %}
+```
+
+En el código previo, se pueden notar los bloques `content` y `title` que definen el contenido y el título de la página, respectivamente. Además, se puede apreciar el hecho de Chuck Norris que se está mostrando en la página.
+
+Ahora, vamos a editar la plantilla `random.html`. Esta plantilla será la encargada de mostrar un hecho de Chuck Norris aleatorio:
+
+```html
+{% extends 'facts/base.html' %} {% load bootstrap5 %} {% block title %}Hecho
+aleatorio{% endblock %} {% block content %}
+<h1>Este es un hecho aleatorio de Chuck Norris</h1>
+<p class="lead">{{ fact.fact }}</p>
+{% endblock %}
+```
+
+Esta plantilla es muy similar a la plantilla `detail.html`, con la diferencia de que muestra un hecho de Chuck Norris aleatorio.
+
+Es el turno de editar la plantilla `404.html`. Esta plantilla será la encargada de mostrar el error 404:
+
+```html
+{% extends 'facts/base.html' %} {% load bootstrap5 %} {% block title %}Hecho no
+encontrado{% endblock %} {% block content %}
+<div class="text-center">
+  <h1 class="display-1 fw-bold">404</h1>
+  <p class="fs-3">
+    <span class="text-danger">Ups!</span> Página no encontrada.
+  </p>
+  <p class="lead">El hecho que estás buscando no existe.</p>
+  <a
+    href="{% url 'home' %}"
+    class="btn btn-lg btn-secondary fw-bold border-white bg-white"
+    >Ir al inicio</a
+  >
+</div>
+{% endblock %}
+```
+
+Ahora debemos editar las vistas para que usen estas plantillas. Para ello, modificaremos el archivo `views.py` de la aplicación `facts`:
+
+```python
+import random
+from django.shortcuts import render
+
+# Lista de hechos de Chuck Norris
+FACTS_LIST = [
+    {
+        'id': 1,
+        'fact': 'Chuck Norris contó hasta el infinito. Dos veces.'
+    },
+    {
+        'id': 2,
+        'fact': 'Chuck Norris puede dividir por cero.'
+    },
+    {
+        'id': 3,
+        'fact': 'Chuck Norris puede reproducir un CD en un tocadiscos.'
+    },
+    {
+        'id': 4,
+        'fact': 'Chuck Norris puede ganar al Sol en un juego de miradas.'
+    },
+    {
+        'id': 5,
+        'fact': 'Chuck Norris dona sangre a menudo. Pero rara vez es la suya.'
+    }
+]
+
+def home_view(request):
+    # Creamos el contenido de la respuesta
+    context = {'facts': FACTS_LIST}
+    # Creamos la respuesta
+    return render(request, 'facts/home.html', context=context)
+
+def fact_view(request, fact_id):
+    try:
+        # Seleccionamos un hecho específico
+        current_fact = next(
+            (fact['fact'] for fact in FACTS_LIST if fact['id'] == fact_id))
+        # Creamos el contenido de la respuesta
+        context = {'fact': current_fact}
+        # Creamos la respuesta
+        return render(request, 'facts/detail.html', context=context)
+    except StopIteration:
+        # Creamos la respuesta
+        return render(request, 'facts/404.html', status=404)
+
+def random_view(request):
+    # Seleccionamos un hecho aleatorio
+    current_fact = random.choice(FACTS_LIST)
+    # Creamos el contenido de la respuesta
+    context = {'fact': current_fact}
+    # Creamos la respuesta
+    return render(request, 'facts/random.html', context=context)
 ```
 
 Ahora, vamos a crear un modelo para almacenar los datos de los hechos de Chuck Norris. Para ello, modificaremos el archivo `models.py` de la aplicación `facts`, en donde definiremos el modelo `Fact`:
@@ -202,125 +488,26 @@ def create_view(request):
 
 En el código anterior, se modifican las funciones `home_view`, `fact_view` y `random_view` para que usen el modelo `Fact` y retorne una plantilla mediante la función `render`. Además, se crea la función `create_view` que se encargará de crear nuevas entradas en la base de datos, y que usa el modelo `Fact` y el formulario `FactForm`.
 
-Como acto seguido, vamos a crear las plantillas y todo lo necesario para que estas funcionen.
+Como acto seguido, vamos a definir la plantilla para crear nuevos hechos. Para ello, crearemos el archivo `create.html` en la ruta `templates/facts`:
 
-En primer lugar, vamos a crear una carpeta llamada `static` en el directorio raíz del proyecto y dentro de esta, una llamada `facts`. Esta carpeta contendrá los recursos estáticos de la aplicación. Dentro de la ruta `static/facts`, crearemos una carpeta llamada `css`, que contendrá los archivos CSS de la aplicación.
-
-En el siguiente paso, vamos a crear una carpeta dentro de la aplicación `facts`, llamada `templates`. Esta carpeta contendrá las plantillas HTML de la aplicación. Dentro de la carpeta `templates`, crearemos una carpeta llamada `facts`, que contendrá las plantillas HTML de la aplicación `facts`.
-
-Con las carpetas creadas, crearemos los siguientes archivos:
-
-- `style.css` en la carpeta `static/facts/css`
-- `404.html` en la carpeta `templates/facts`
-- `base.html` en la carpeta `templates/facts`
-- `create_fact.html` en la carpeta `templates/facts`
-- `detail.html` en la carpeta `templates/facts`
-- `home.html` en la carpeta `templates/facts`
-- `random.html` en la carpeta `templates/facts`
-
-Lo anterior, debe dar como resultado la siguiente estructura de archivos:
-
-```plaintext
-chuck_norris/
-├── chuck_norris/
-│ ├── asgi.py
-│ ├── settings.py
-│ ├── urls.py
-│ ├── wsgi.py
-│ └── __init__.py
-├── facts/
-│ ├── migrations/
-│ │ ├── 0001_initial.py
-│ │ ├── 0002_initial_data.py
-│ │ └── __initial__.py
-│ ├── static/
-│ │ └── facts/
-│ │  └── css/
-│ │   └── style.css
-│ ├── templates/
-│ │ └── facts/
-│ │  ├── 404.html
-│ │  ├── base.html
-│ │  ├── create.html
-│ │  ├── detail.html
-│ │  ├── home.html
-│ │  └── random.html
-│ ├── admin.py
-│ ├── apps.py
-│ ├── models.py
-│ ├── tests.py
-│ ├── urls.py
-│ ├── views.py
-│ └── __init__.py
-└── manage.py
+```html{% extends 'facts/base.html' %}
+{% load bootstrap5 %}
+{% block title %}Crear nuevo hecho{% endblock %}
+{% block content %}
+<h1>Crear nuevo hecho</h1>
+<form action="{% url 'create' %}" method="POST">
+    {% csrf_token %}
+    {% bootstrap_form form layout='horizontal' %}
+    <button type="submit" class="btn btn-lg btn-primary fw-bold">Crear</button>
+</form>
+{% endblock %}
 ```
 
-En primera instancia, vamos a editar el archivo llamado `styles.css`. Este archivo contendrá los estilos CSS de la aplicación. El contenido del archivo será el siguiente:
+En el código anterior, definimos un bloque `content` que muestra el formulario para crear nuevos hechos de Chuck Norris. También definimos un bloque `title` que define el título de la página. Además, definimos un formulario que apunta a la URL para crear nuevos hechos de Chuck Norris. Por último, definimos un botón que envía el formulario.
 
-```css
-.bd-placeholder-img {
-  font-size: 1.125rem;
-  text-anchor: middle;
-  -webkit-user-select: none;
-  -moz-user-select: none;
-  user-select: none;
-}
+También vamos a modificar las plantillas `base.html`, `home.html`, `detail.html` y `random.html` para incorporar un enlace que dirija a la vista para crear nuevos hechos.
 
-@media (min-width: 768px) {
-  .bd-placeholder-img-lg {
-    font-size: 3.5rem;
-  }
-}
-
-/*
-* Globals
-*/
-
-/* Custom default button */
-.btn-secondary,
-.btn-secondary:hover,
-.btn-secondary:focus {
-  color: #333;
-  text-shadow: none;
-  /* Prevent inheritance from `body` */
-}
-
-/* Base structure */
-body {
-  text-shadow: 0 0.05rem 0.1rem rgba(0, 0, 0, 0.5);
-  box-shadow: inset 0 0 5rem rgba(0, 0, 0, 0.5);
-}
-
-.cover-container {
-  max-width: 48em;
-}
-
-/* Header */
-.nav-masthead .nav-link {
-  padding: 0.25rem 0;
-  font-weight: 700;
-  color: rgba(255, 255, 255, 0.5);
-  background-color: transparent;
-  border-bottom: 0.25rem solid transparent;
-}
-
-.nav-masthead .nav-link:hover,
-.nav-masthead .nav-link:focus {
-  border-bottom-color: rgba(255, 255, 255, 0.25);
-}
-
-.nav-masthead .nav-link + .nav-link,
-.nav-masthead .dropdown {
-  margin-left: 1rem;
-}
-
-.nav-masthead .active {
-  color: #fff;
-  border-bottom-color: #fff;
-}
-```
-
-Como siguiente paso, vamos a editar el archivo llamado `base.html`. Este archivo contendrá la plantilla para mostrar el error 404. El contenido del archivo será el siguiente:
+En el archivo `base.html`, agregaremos el siguiente código:
 
 ```html
 {% load static %} {% load bootstrap5 %}
@@ -361,9 +548,7 @@ Como siguiente paso, vamos a editar el archivo llamado `base.html`. Este archivo
 </html>
 ```
 
-En el código anterior, definimos un bloque `content` que define el contenido de la página. También definimos un bloque `title` que define el título de la página. Además, agregamos los enlaces a los archivos CSS y JavaScript de Bootstrap. También agregamos un enlace al archivo `styles.css` que contiene los estilos CSS de la aplicación.
-
-La siguiente plantilla que vamos a crear se llamará `home.html`. Esta plantilla será la encargada de mostrar los hechos de Chuck Norris:
+En el archivo `home.html`, agregaremos el siguiente código:
 
 ```html
 {% extends 'facts/base.html' %} {% block title %}Hechos de Chuck Norris{%
@@ -390,13 +575,11 @@ endblock %} {% block content %}
 {% endblock %}
 ```
 
-En el código anterior, se pueden apreciar los bloques `content` y `title` que definen el contenido y el título de la página, respectivamente. Además, se puede apreciar un bucle `for` que recorre los hechos de Chuck Norris y los muestra en la página. También se puede apreciar un enlace que apunta a la página para crear nuevas entradas en la base de datos.
-
-Ahora es el turno de editar la plantilla `detail.html`. Esta plantilla será la encargada de mostrar un hecho de Chuck Norris en particular:
+En el archivo `detail.html`, agregaremos el siguiente código:
 
 ```html
-{% extends 'facts/base.html' %} {% load bootstrap5 %} {% block title %}Crear
-nuevo hecho{% endblock %} {% block content %}
+{% extends 'facts/base.html' %} {% load bootstrap5 %} {% block title %}Hecho de
+Chuck Norris{% endblock %} {% block content %}
 <h1>Este es un hecho de Chuck Norris con ID {{ fact.id }}</h1>
 <p class="lead">{{ fact.fact }}</p>
 <p class="lead">
@@ -410,13 +593,11 @@ nuevo hecho{% endblock %} {% block content %}
 {% endblock %}
 ```
 
-En el código previo, se pueden notar los bloques `content` y `title` que definen el contenido y el título de la página, respectivamente. Además, se puede apreciar el hecho de Chuck Norris que se está mostrando en la página. También se puede apreciar un enlace que apunta a la página para crear nuevas entradas en la base de datos.
-
-Ahora, vamos a editar la plantilla `random.html`. Esta plantilla será la encargada de mostrar un hecho de Chuck Norris aleatorio:
+En el archivo `random.html`, agregaremos el siguiente código:
 
 ```html
-{% extends 'facts/base.html' %} {% load bootstrap5 %} {% block title %}Crear
-nuevo hecho{% endblock %} {% block content %}
+{% extends 'facts/base.html' %} {% load bootstrap5 %} {% block title %}Hecho
+aleatorio{% endblock %} {% block content %}
 <h1>Este es un hecho aleatorio de Chuck Norris</h1>
 <p class="lead">{{ fact.fact }}</p>
 <p class="lead">
@@ -429,25 +610,6 @@ nuevo hecho{% endblock %} {% block content %}
 </p>
 {% endblock %}
 ```
-
-Esta plantilla es muy similar a la plantilla `detail.html`, con la diferencia de que muestra un hecho de Chuck Norris aleatorio.
-
-Ahora, debemos definir la vista para crear nuevos hechos. Para ello, modificaremos la plantilla `create.html`:
-
-```html{% extends 'facts/base.html' %}
-{% load bootstrap5 %}
-{% block title %}Crear nuevo hecho{% endblock %}
-{% block content %}
-<h1>Crear nuevo hecho</h1>
-<form action="{% url 'create' %}" method="POST">
-    {% csrf_token %}
-    {% bootstrap_form form layout='horizontal' %}
-    <button type="submit" class="btn btn-lg btn-primary fw-bold">Crear</button>
-</form>
-{% endblock %}
-```
-
-En el código anterior, definimos un bloque `content` que muestra el formulario para crear nuevos hechos de Chuck Norris. También definimos un bloque `title` que define el título de la página. Además, definimos un formulario que apunta a la URL para crear nuevos hechos de Chuck Norris. Por último, definimos un botón que envía el formulario.
 
 Ahora, debemos definir la URL para crear nuevos hechos de Chuck Norris. Para ello, modificaremos el archivo `urls.py` de la aplicación `facts`:
 
@@ -463,7 +625,7 @@ urlpatterns = [
 ]
 ```
 
-En el código anterior, definimos la URL para crear nuevos hechos de Chuck Norris, definiend la ruta `create/` que apunta a la función `create_view`, con el nombre `create`.
+En el código anterior, definimos la URL para crear nuevos hechos de Chuck Norris, definiendo la ruta `create/` que apunta a la función `create_view`, con el nombre `create`.
 
 En este punto, podemos ejecutar el servidor de desarrollo de Django para probar la aplicación:
 
@@ -471,7 +633,7 @@ En este punto, podemos ejecutar el servidor de desarrollo de Django para probar 
 python manage.py runserver
 ```
 
-El resultado de ejecutar el comando anterior, debe ser similar a la siguiente imagen:
+El resultado de ejecutar el comando anterior debe ser similar a la siguiente imagen:
 
 ![Demo](demo.gif)
 

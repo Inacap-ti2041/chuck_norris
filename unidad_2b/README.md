@@ -4,7 +4,7 @@ Construye aplicaciones web usando un framework del lado del servidor según requ
 
 ## Paso a paso
 
-En la unidad anterior, agregamos un modelo a nuestro aplicación, e incluimos el uso de contenido estático y plantillas. El proyecto resultante quedó con la siguiente estructura:
+En la unidad anterior, agregamos un modelo a nuestra aplicación, e incluimos el uso de contenido estático y plantillas. El proyecto resultante quedó con la siguiente estructura:
 
 ```plaintext
 chuck_norris/
@@ -42,7 +42,7 @@ chuck_norris/
 └── manage.py
 ```
 
-Como primer paso, vamos a incorporar el uso de sesiones en nuestra aplicación, para asegurarnos que al momento de mostrar un hecho aleatorio, este no se repita. Para ello, vamos a modificar el archivo `views.py` de la aplicación `facts`:
+Como primer paso, vamos a incorporar el uso de sesiones en nuestra aplicación, para asegurarnos que, al momento de mostrar un hecho aleatorio, este no se repita. Para ello, vamos a modificar el archivo `views.py` de la aplicación `facts`:
 
 ```python
 import random
@@ -57,23 +57,25 @@ def fact_view(request, fact_id):
     ...
 
 def random_view(request):
-    # Obtiene la lista de hechos vistos
-    seen_facts = request.session.get('seen_facts', [])
+    # Obtiene la lista de hechos vistos (identificadores únicos)
+    seen_facts_ids = request.session.get('seen_facts_ids', [])
     # Filtra la lista de hechos para mostrar solo los que el
-    # usuario aún no ha visto
-    remaining_facts = [fact for fact in Fact.objects.all()
-                       if fact not in facts_seen]
+    # usuario aún no ha visto (por identificador único)
+    remaining_facts = Fact.objects.exclude(id__in=seen_facts_ids)
     # Si no quedan hechos por mostrar, reinicia la lista
     if not remaining_facts:
-        # Si el usuario ha visto todos los hechos, reinicia la lista
-        facts_seen = []
+        # Si el usuario ha visto todos los hechos,
+        # reinicia la lista
+        seen_facts_ids = []
         remaining_facts = Fact.objects.all()
     # Elige un hecho aleatorio de los que quedan por mostrar
     current_fact = random.choice(remaining_facts)
-    # Agrega el hecho actual a la lista de hechos vistos por el usuario
-    facts_seen.append(current_fact)
-    # Almacena la lista actualizada de hechos vistos en la sesión del usuario
-    request.session['facts_seen'] = facts_seen
+    # Agrega el identificador único del hecho actual a la lista
+    # de hechos vistos por el usuario
+    seen_facts_ids.append(current_fact.id)
+    # Almacena la lista actualizada de hechos vistos en la
+    # sesión del usuario
+    request.session['seen_facts_ids'] = seen_facts_ids
     # Creamos el contenido de la respuesta
     context = {'fact': current_fact}
     # Creamos la respuesta
@@ -82,6 +84,24 @@ def random_view(request):
 def create_fact(request):
     ...
 ```
+
+Aquí está la explicación detallada del funcionamiento del código:
+
+1. Se obtiene la lista de identificadores únicos de hechos vistos del objeto de sesión del usuario. Estos identificadores se almacenan en la clave `'seen_facts_ids'` de la sesión. Si la clave no existe en la sesión, se utiliza una lista vacía como valor predeterminado.
+
+2. Se filtra la lista de hechos utilizando el método `exclude` de Django para mostrar solo los hechos que el usuario aún no ha visto. Esto se hace utilizando la función `exclude(id__in=seen_facts_ids)`, que excluye los hechos cuyos identificadores estén en la lista `seen_facts_ids`.
+
+3. Si no quedan hechos por mostrar (es decir, `remaining_facts` está vacío), se reinicia la lista `seen_facts_ids` a una lista vacía y se obtienen todos los hechos disponibles.
+
+4. Se elige un hecho aleatorio de la lista de hechos que aún no se han visto utilizando la función `random.choice`. Esto selecciona aleatoriamente un elemento de la lista `remaining_facts` y lo almacena en la variable `current_fact`.
+
+5. Se agrega el identificador único del hecho actual (`current_fact.id`) a la lista `seen_facts_ids`, lo que indica que el usuario ha visto este hecho.
+
+6. Se actualiza la lista de identificadores de hechos vistos en la sesión del usuario, almacenándola en `request.session['seen_facts_ids']`.
+
+7. Se crea un contexto (`context`) que contiene el hecho aleatorio seleccionado (`current_fact`). Este contexto se utilizará para renderizar la plantilla HTML.
+
+8. Finalmente, se renderiza la plantilla `'facts/random.html'` utilizando la función `render`, pasando el objeto `request` y el contexto `context` como argumentos. Esto devuelve una respuesta HTTP que muestra el hecho aleatorio al usuario.
 
 Ahora vamos a agregar seguridad a nuestra aplicación. Para ello, vamos a utilizar el sistema de autenticación de Django.
 
@@ -248,15 +268,17 @@ Veamos algunos puntos interesantes del código anterior:
   - `backend` (opcional): Especifica el _back end_ de autenticación que se utilizará para autenticar al usuario. Si se omite, se utiliza el _back end_ de autenticación predeterminado.
 - La función `logout` se utiliza para cerrar la sesión de un usuario autenticado en la aplicación web. Esto elimina la información de autenticación de la sesión actual y redirige al usuario a la página de inicio de sesión o a otra página específica, dependiendo de la configuración de la aplicación. Toma un argumento principal:
   - `request`: Es el objeto de solicitud de Django, que se utiliza para gestionar la sesión del usuario.
-- El decorador `login_required` permite proteger las vistas de tu aplicación web, asegurándose de que solo los usuarios autenticados tengan acceso a ellas. Si un usuario intenta acceder a una vista decorada con login_required sin haber iniciado sesión previamente, se le redirige automáticamente a la página de inicio de sesión o a otra página específica definida en la configuración o los parámetros, para autenticarse antes de permitir el acceso a la vista deseada. Este decorador admite algunos parámetros que te permiten personalizar su comportamiento:
+- El decorador `@login_required` permite proteger las vistas de tu aplicación web, asegurándose de que solo los usuarios autenticados tengan acceso a ellas. Si un usuario intenta acceder a una vista decorada con `@login_required` sin haber iniciado sesión previamente, se le redirige automáticamente a la página de inicio de sesión o a otra página específica definida en la configuración o los parámetros, para autenticarse antes de permitir el acceso a la vista deseada. Este decorador admite algunos parámetros que te permiten personalizar su comportamiento:
   - `login_url` (opcional): Este parámetro te permite especificar la URL a la que se redirigirá a los usuarios no autenticados. Si no se proporciona, se utiliza la URL de inicio de sesión predeterminada definida en la configuración de Django (`LOGIN_URL` en `settings.py`).
-  - `redirect_field_name` (opcional): Este parámetro te permite especificar el nombre del campo que se utilizará para almacenar la URL original a la que el usuario intentaba acceder antes de ser redirigido a la página de inicio de sesión. Por defecto, se utiliza el valor `'next'`.
+  - `redirect_field_name` (opcional): Este parámetro te permite especificar el nombre del campo que se utilizará para almacenar la URL original a la que el usuario intentaba acceder antes de ser redirigido a la página de inicio de sesión. Por defecto, se utiliza el valor `next`.
   - `login_url_required` (opcional): Si se establece en `True`, el decorador `login_required` solo permitirá el acceso a la vista si el usuario ha sido redirigido desde la página de inicio de sesión. Esto puede ser útil cuando se necesita controlar que el acceso a una vista específica solo se realice después de iniciar sesión, y no si el usuario simplemente ingresa la URL manualmente.
 
 Ahora es el turno de modificar el archivo `settings.py` para agregar la configuración de autenticación. Para ello, debemos agregar las siguientes líneas al final del archivo:
 
 ```python
 LOGIN_URL = 'login'
+LOGIN_REDIRECT_URL = 'home'
+LOGOUT_REDIRECT_URL = 'home'
 ```
 
 Para que Django reconozca las nuevas vistas, debemos modificar el archivo `urls.py` de la aplicación `facts`:
@@ -286,22 +308,36 @@ Por último, modificaremos el archivo `base.html` de la aplicación `facts` para
             <div>
                 <h3 class="float-md-start mb-0">Hechos de Chuck Norris</h3>
                 <nav class="nav nav-masthead justify-content-center float-md-end">
-                    <a class="nav-link" href="{% url 'home' %}">Inicio</a>
-                    <a class="nav-link" href="{% url 'random' %}">Aleatorio</a>
+                    <a class="nav-link" href="{% url 'home' %}">
+                        Inicio
+                    </a>
+                    <a class="nav-link" href="{% url 'random' %}">
+                        Aleatorio
+                    </a>
                     {% if user.is_authenticated %}
-                    <a class="nav-link" href="{% url 'create_fact' %}">Nuevo</a>
+                    <a class="nav-link" href="{% url 'create_fact' %}">
+                        Nuevo
+                    </a>
                     <span class="dropdown">
-                        <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button"
-                            aria-expanded="false">
+                        <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown"
+                           href="#" role="button" aria-expanded="false">
                             {{ user.username }}
                         </a>
                         <ul class="dropdown-menu">
-                            <li><a class="dropdown-item" href="{% url 'logout' %}">Cerrar sesión</a></li>
+                            <li>
+                                <a class="dropdown-item" href="{% url 'logout' %}">
+                                    Cerrar sesión
+                                </a>
+                            </li>
                         </ul>
                     </span>
                     {% else %}
-                    <a class="nav-link" href="{% url 'login' %}">Iniciar sesión</a>
-                    <a class="nav-link" href="{% url 'register' %}">Registrarse</a>
+                    <a class="nav-link" href="{% url 'login' %}">
+                        Iniciar sesión
+                    </a>
+                    <a class="nav-link" href="{% url 'register' %}">
+                        Registrarse
+                    </a>
                     {% endif %}
                 </nav>
             </div>

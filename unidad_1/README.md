@@ -16,7 +16,7 @@ Luego, debemos acceder al directorio:
 cd chuck_norris
 ```
 
-Una vez dentro, crearemos el proyecto en Django con el siguente comando:
+Una vez dentro, crearemos el proyecto en Django con el siguiente comando:
 
 ```bash
 django-admin startproject chuck_norris .
@@ -24,7 +24,7 @@ django-admin startproject chuck_norris .
 
 > **Nota:** Es importante destacar el punto al final del comando. Ese parámetro le indica a Django que debe crear el proyecto en el primer nivel del directorio.
 
-Con el projecto Django creado, ahora debemos crear la aplicación. Para lograrlo, ejecutaremos el siguiente comando:
+Con el proyecto Django creado, ahora debemos crear la aplicación. Para lograrlo, ejecutaremos el siguiente comando:
 
 ```bash
 python manage.py startapp facts
