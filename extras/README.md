@@ -4,10 +4,12 @@ En este apartado se encuentran algunos elementos adicionales, útiles al momento
 
 ## Tabla de contenidos
 
-- [Entorno Virtual](#entorno-virtual)
-- [Archivo `requirements.txt`](#archivo-requirementstxt)
-- [Variables de Entorno](#variables-de-entorno)
-- [Autenticación con JWT](#autenticación-con-jwt)
+- [Extras](#extras)
+  - [Tabla de contenidos](#tabla-de-contenidos)
+  - [Entorno Virtual](#entorno-virtual)
+  - [Archivo `requirements.txt`](#archivo-requirementstxt)
+  - [Variables de Entorno](#variables-de-entorno)
+  - [Autenticación con JWT](#autenticación-con-jwt)
 
 ## Entorno Virtual
 
@@ -428,6 +430,45 @@ La petición anterior deberá retornar una respuesta similar a esta:
 ```
 
 > **Nota:** El valor que obtengas será diferente al que se muestra en este ejemplo.
+
+Un token JWT (JSON Web Token) tiene una estructura específica y consta de tres partes separadas por puntos (`.`):
+
+```plaintext
+aaaaa.bbbbb.ccccc
+```
+
+1. **Encabezado (Header):**
+   - El encabezado es la primera parte del token.
+   - Contiene información sobre el tipo de token y el algoritmo de firma utilizado.
+   - Codificado en Base64URL.
+
+   Ejemplo de encabezado decodificado:
+
+   ```json
+   {
+     "alg": "HS256",
+     "typ": "JWT"
+   }
+   ```
+
+2. **Carga Útil (Payload):**
+   - La carga útil sigue al encabezado y contiene los "claims" (demandas) que son declaraciones sobre una entidad (por ejemplo, un usuario) y datos adicionales.
+   - Codificado en Base64URL.
+
+   Ejemplo de carga útil decodificada:
+
+   ```json
+   {
+     "sub": "1234567890",
+     "name": "John Doe",
+     "iat": 1516239022
+   }
+   ```
+
+3. **Firma (Signature):**
+   - La firma es la tercera parte del token.
+   - Se utiliza para verificar la integridad del token y para asegurar que no ha sido manipulado.
+   - Se crea firmando la concatenación del encabezado codificado, la carga útil codificada y una clave secreta utilizando el algoritmo de firma especificado en el encabezado.
 
 Ahora, vamos a realizar una petición GET a la URL `http://127.0.0.1:8000/api/facts/`. Si usamos una herramienta como Postman, debemos modificar la autorización de la petición para que use el token `access` que obtuvimos anteriormente. Si usamos cURL, debemos añadir el token en el header de la petición de la siguiente forma:
 
