@@ -73,6 +73,8 @@ DATABASES = {
 CORS_ORIGIN_ALLOW_ALL = True
 ```
 
+> **Nota:** Recuerda que debes cambiar los datos de conexión a MySQL por los que estés usando en tu entorno.
+
 Ahora, vamos a crear la base de datos en MySQL. Para ello, vamos a ejecutar los siguientes comandos:
 
 - Nos conectamos a MySQL:
@@ -92,8 +94,6 @@ Ahora, vamos a crear la base de datos en MySQL. Para ello, vamos a ejecutar los 
   ```sql
   exit;
   ```
-
-> **Nota:** Recuerda que debes cambiar los datos de conexión a MySQL por los que estés usando en tu equipo.
 
 Ahora estamos listos para crear las tablas de nuestra base de datos. Para ello, vamos a ejecutar el siguiente comando:
 
@@ -180,6 +180,8 @@ class FactDetail(APIView):
         return Response(status=status.HTTP_204_NO_CONTENT)
 ```
 
+El código anterior nos dará la capacidad de crear las vistas necesarias para nuestra API RESTFul. La clase `FactList` nos ofrecerá las opciones de listar y crear hechos. Por su parte, la clase `FactDetail` nos proporcionará los métodos para obtener, editar y eliminar un hecho específico. Cabe destacar el método `get_fact` que nos permitirá obtener un hecho específico mediante su ID o lanzar un error 404 si no existe.
+
 Luego, vamos a crear un archivo llamado `urls.py` en la carpeta `api` con el siguiente contenido:
 
 ```python
@@ -192,6 +194,8 @@ urlpatterns = [
     path('facts/<int:id>/', FactDetail.as_view()),
 ]
 ```
+
+Es necesario entender que los patrones de URL deben ser únicos y específicos según el recurso que se quiera acceder. En este caso, la ruta `facts/` nos permitirá acceder a la lista de hechos, mientras que la ruta `facts/<int:id>/` nos permitirá acceder a un hecho específico. De esta forma, no es necesario especificar diferentes URLs para cada acción, sino que se puede usar una sola URL y especificar el método HTTP que se quiere usar. Por ejemplo, la ruta `facts/<int:id>/` nos permitirá obtener un hecho específico con el método `GET`, editarlo con el método `PUT` y eliminarlo con el método `DELETE`.
 
 Ahora, vamos a modificar el archivo llamado `urls.py` en la carpeta `chuck_norris` con el siguiente contenido:
 
